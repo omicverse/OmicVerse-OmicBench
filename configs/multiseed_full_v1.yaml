@@ -1,0 +1,27 @@
+run_name: multiseed_full_v1
+description: |
+  Full suite × 3 systems × seeds 0,1,2 — produces n=3 paired observations
+  per (system, task) for McNemar / bootstrap-CI in the report. ~15-20 hours.
+
+llm:
+  model: qwen3.6:35b-a3b-256k
+  endpoint: http://127.0.0.1:11434/v1
+  api_key_env: OLLAMA_API_KEY
+  temperature: 0.0
+
+agent:
+  max_agent_turns: 35
+
+scope:
+  systems: [mini_swe_omicverse, mini_swe_baseline, human_scanpy]
+  task_ids: []
+  layers: []
+  difficulties: []
+  seeds: [0, 1, 2]
+  skip_completed: true
+
+paths:
+  trajectories_dir: trajectories
+  results_dir: results
+  workspace_dir: data/workspace
+  logs_dir: logs

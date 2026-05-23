@@ -1,0 +1,23 @@
+run_name: minimax_full
+description: |
+  MiniMax M-series sweep — minimax_omicverse + minimax_baseline on the
+  canonical 38-task set. OpenAI-compatible endpoint at api.minimaxi.com.
+llm:
+  model: MiniMax-M2.7
+  endpoint: https://api.minimaxi.com/v1
+  api_key_env: MINIMAX_API_KEY
+  temperature: 0.0
+agent:
+  max_agent_turns: 50
+scope:
+  systems: [minimax_baseline, minimax_omicverse]
+  task_ids: []
+  layers: [A, B, C, E, F, G, L]
+  difficulties: []
+  seeds: [0]
+  skip_completed: true
+paths:
+  trajectories_dir: trajectories
+  results_dir: results
+  workspace_dir: data/workspace
+  logs_dir: logs

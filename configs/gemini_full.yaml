@@ -1,0 +1,30 @@
+run_name: gemini_full
+description: |
+  Gemini 3.1-flash-lite-preview sweep — gemini_omicverse + gemini_baseline
+  on every layer (A B C E F G L). 4th LLM-arm comparison alongside qwen
+  (local ollama), gpt-5.5 (ChatGPT OAuth), DeepSeek v4-flash (DS API).
+  Uses Google's OpenAI-compatible endpoint at
+  https://generativelanguage.googleapis.com/v1beta/openai/.
+
+llm:
+  model: gemini-3.1-flash-lite-preview
+  endpoint: https://generativelanguage.googleapis.com/v1beta/openai/
+  api_key_env: GEMINI_API_KEY
+  temperature: 0.0
+
+agent:
+  max_agent_turns: 30
+
+scope:
+  systems: [gemini_omicverse, gemini_baseline]
+  task_ids: []
+  layers: [A, B, C, E, F, G, L]
+  difficulties: []
+  seeds: [0]
+  skip_completed: true
+
+paths:
+  trajectories_dir: trajectories
+  results_dir: results
+  workspace_dir: data/workspace
+  logs_dir: logs

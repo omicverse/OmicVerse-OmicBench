@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "omicverse-omicbench"
+version = "1.0.0"
+description = "Agent harness, sweep configs, results, and capability analysis for the OmicBench benchmark."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "PolyForm-Noncommercial-1.0.0" }
+authors = [
+    { name = "Zehua Zeng", email = "starlitnightly@163.com" },
+]
+keywords = [
+    "benchmark", "llm-agent", "single-cell", "scanpy", "omicverse",
+    "spatial-transcriptomics", "rna-velocity", "microbiome",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3 :: Only",
+    # PolyForm Noncommercial 1.0.0 is not in the SPDX 'OSI Approved' list,
+    # so no License classifier is emitted; consult LICENSE for terms.
+    "License :: Free for non-commercial use",
+]
+
+dependencies = [
+    "pydantic>=2.5",
+    "pyyaml>=6.0",
+    "pandas>=2",
+    "numpy>=1.23",
+    "scipy>=1.10",
+    "anndata>=0.10",
+    "scanpy>=1.10",
+    "scikit-learn>=1.2",
+    "huggingface_hub>=0.36",      # scripts/fetch_omicbench.sh
+    "openai>=1.40",                # mini-swe-agent / radar_grade.py
+    "litellm>=1.50",               # multi-provider routing for mini-swe-agent
+    "matplotlib>=3.7",             # figures + analysis/radar_*.py
+    "rich>=13",
+    "click>=8.1",
+]
+
+[project.optional-dependencies]
+serve = ["vllm>=0.6.5"]
+mini-swe = ["mini-swe-agent>=1.1"]
+analysis = ["jupyter", "ipykernel", "seaborn"]
+dev = ["pytest>=7", "pytest-cov", "ruff", "mypy"]
+all = ["omicverse-omicbench[serve,mini-swe,analysis,dev]"]
+
+[project.urls]
+Homepage    = "https://github.com/omicverse/OmicVerse-OmicBench"
+Dataset     = "https://huggingface.co/datasets/omicverse/OmicBench"
+OmicVerse   = "https://github.com/omicverse/omicverse"
+
+[tool.setuptools.packages.find]
+include = ["bench*", "omicverse_components*"]
+exclude = ["tests*", "results*", "trajectories*", "data*", "fixtures*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::FutureWarning",
+]

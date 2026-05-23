@@ -1,0 +1,32 @@
+run_name: ablation_gpt_doc_rag
+description: |
+  Ablation: replace structured registry/skill discovery with vanilla
+  embedding RAG (sentence-transformers/all-MiniLM-L6-v2 over 613
+  omicverse callable docstrings). Isolates "structured library-side
+  contract" from "any retrieval is enough".
+
+  Build the index first:
+    bash scripts/build_doc_rag_index.py
+
+llm:
+  model: gpt-5.5
+  endpoint: "(unused — gpt_oauth resolves via ~/.codex/auth.json)"
+  api_key_env: ""
+  temperature: 0.0
+
+agent:
+  max_agent_turns: 35
+
+scope:
+  systems: [gpt_omicverse_doc_rag]
+  task_ids: []
+  layers: [A, B, C, E, F, G, L]
+  difficulties: []
+  seeds: [0]
+  skip_completed: true
+
+paths:
+  trajectories_dir: trajectories
+  results_dir: results
+  workspace_dir: data/workspace
+  logs_dir: logs

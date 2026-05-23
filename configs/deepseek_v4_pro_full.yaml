@@ -1,0 +1,28 @@
+run_name: deepseek_v4_pro_full
+description: |
+  DeepSeek-v4-pro sweep (companion to deepseek_full which used v4-flash).
+  Same DeepSeek API key, different model — measures the flash→pro
+  capability uplift across the full task set.
+
+llm:
+  model: deepseek-v4-pro
+  endpoint: https://api.deepseek.com/v1
+  api_key_env: DEEPSEEK_API_KEY
+  temperature: 0.0
+
+agent:
+  max_agent_turns: 30
+
+scope:
+  systems: [deepseek_omicverse, deepseek_baseline]
+  task_ids: []
+  layers: [A, B, C, E, F, G, L]
+  difficulties: []
+  seeds: [0]
+  skip_completed: true
+
+paths:
+  trajectories_dir: trajectories
+  results_dir: results
+  workspace_dir: data/workspace
+  logs_dir: logs

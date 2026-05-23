@@ -1,0 +1,23 @@
+run_name: glm_full
+description: |
+  Zhipu GLM-5.1 sweep (BigModel coding-plan endpoint, OpenAI-compatible).
+  glm_omicverse + glm_baseline on the canonical 38-task set.
+llm:
+  model: glm-5.1
+  endpoint: https://open.bigmodel.cn/api/coding/paas/v4
+  api_key_env: GLM_API_KEY
+  temperature: 0.0
+agent:
+  max_agent_turns: 50
+scope:
+  systems: [glm_baseline, glm_omicverse]
+  task_ids: []
+  layers: [A, B, C, E, F, G, L]
+  difficulties: []
+  seeds: [0]
+  skip_completed: true
+paths:
+  trajectories_dir: trajectories
+  results_dir: results
+  workspace_dir: data/workspace
+  logs_dir: logs

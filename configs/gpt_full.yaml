@@ -1,0 +1,39 @@
+run_name: gpt_full
+description: |
+  gpt-5.5 via ChatGPT OAuth (Codex CLI tokens), full 38-task v1.0 suite,
+  both arms (gpt_omicverse with Beacon prompt vs. gpt_baseline).
+
+  Historical note: in the v1.0 sweep this was executed as six layer-
+  sharded sub-runs (gpt_abc / gpt_c / gpt_e / gpt_f / gpt_g /
+  gpt_l) to fit OAuth concurrency limits and to allow a mid-sweep C01
+  prompt patch (the C-layer was re-run after the prompt-leakage fix; see
+  docs/05_changelog.md). The merged result is reported under
+  results/gpt_full_canonical/.
+
+  Re-running this single config will produce results equivalent to the
+  shards, but the OAuth token may rate-limit on long unbroken runs. If
+  you hit "401 refresh" errors, copy this config to per-layer files with
+  scope.layers = [A,B] / [C] / [E] / [F] / [G] / [L] and run sequentially.
+
+llm:
+  model: gpt-5.5
+  endpoint: ""           # unused — gpt_oauth_model resolves via ~/.codex/auth.json
+  api_key_env: ""
+  temperature: 0.0
+
+agent:
+  max_agent_turns: 35    # per-task max_turns in bench/tasks.py overrides if lower
+
+scope:
+  systems: [gpt_omicverse, gpt_baseline]
+  task_ids: []
+  layers: [A, B, C, E, F, G, L]
+  difficulties: []
+  seeds: [0, 1, 2]
+  skip_completed: true
+
+paths:
+  trajectories_dir: trajectories
+  results_dir: results
+  workspace_dir: data/workspace
+  logs_dir: logs

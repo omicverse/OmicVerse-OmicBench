@@ -1,0 +1,29 @@
+run_name: deepseek_full
+description: |
+  DeepSeek v4-flash sweep — deepseek_omicverse + deepseek_baseline on
+  every layer (A B C E F G L). Third LLM-arm comparison alongside
+  qwen (local ollama) and gpt-5.5 (ChatGPT OAuth).
+  API: https://api.deepseek.com/v1, OpenAI-compatible.
+
+llm:
+  model: deepseek-v4-flash
+  endpoint: https://api.deepseek.com/v1
+  api_key_env: DEEPSEEK_API_KEY
+  temperature: 0.0
+
+agent:
+  max_agent_turns: 30
+
+scope:
+  systems: [deepseek_omicverse, deepseek_baseline]
+  task_ids: []
+  layers: [A, B, C, E, F, G, L]
+  difficulties: []
+  seeds: [0]
+  skip_completed: true
+
+paths:
+  trajectories_dir: trajectories
+  results_dir: results
+  workspace_dir: data/workspace
+  logs_dir: logs

@@ -1,0 +1,30 @@
+run_name: full_v1
+description: |
+  v1.0 qwen3.6:35b-a3b headline run via local ollama, 1 seed.
+  Default scope is the 38-task A/B/C/E/F/G/L suite (Layer D excluded in v1.0;
+  set scope.layers to add D when v1.1 environment is ready). The two
+  mini_swe_* arms are the treatment vs. control; human_scanpy is the
+  deterministic ceiling reference.
+
+llm:
+  model: qwen3.6:35b-a3b-256k
+  endpoint: http://127.0.0.1:11434/v1
+  api_key_env: OLLAMA_API_KEY
+  temperature: 0.0
+
+agent:
+  max_agent_turns: 35
+
+scope:
+  systems: [mini_swe_omicverse, mini_swe_baseline, human_scanpy]
+  task_ids: []
+  layers: []
+  difficulties: []
+  seeds: [0]
+  skip_completed: true
+
+paths:
+  trajectories_dir: trajectories
+  results_dir: results
+  workspace_dir: data/workspace
+  logs_dir: logs
