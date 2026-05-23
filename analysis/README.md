@@ -136,14 +136,28 @@ x-axis, one point per `(model, arm)` pair, baseline → +OmicVerse connected
 by arrow, Pareto front overlaid). Edit the `PRICING` dict in
 `bench_cost.py` to refresh provider prices, then re-run both scripts.
 
+`cost_chart_html.py` is the same plot rendered to a standalone Plotly
+HTML file — hover tooltips with per-cell numbers, click-toggle providers,
+zoom, log/linear toggle. Embed on omicverse.org / GitHub Pages via
+`<iframe src="cost_vs_score.html">` or grab the inner `<div>` + `<script>`
+into a host page.
+
 ### Reproduce
 
 ```bash
 # Needs trajectories on disk — not shipped with the repo. After a sweep:
 python analysis/bench_cost.py
-# -> analysis/cost_summary.csv  (per-cell tokens)
+# -> analysis/cost_summary.csv  (per-cell tokens; cached for chart re-runs)
+
+# Static PNG (embeddable in markdown):
 python analysis/cost_chart.py
-# -> analysis/cost_vs_score.png  (headline figure)
+# -> analysis/cost_vs_score.png
+
+# Interactive HTML (embeddable on a webpage):
+python analysis/cost_chart_html.py
+# -> analysis/cost_vs_score.html
+#
+# `--inline-plotly` produces a single-file no-network bundle (~3 MB).
 ```
 
 ## Files
@@ -153,10 +167,12 @@ python analysis/cost_chart.py
 | `radar_native.py` | Native-dim radar generator |
 | `radar_grade.py` | LLM-judge variant generator |
 | `bench_cost.py` | Per-task token + cost computation from trajectories |
-| `cost_chart.py` | Pass@1 vs cache-adjusted cost scatter generator |
+| `cost_chart.py` | Pass@1 vs cache-adjusted cost scatter (static PNG) |
+| `cost_chart_html.py` | Same chart, interactive Plotly HTML for webpages |
 | `native_dim_map.csv` | The 140 rubric keys with their dimension assignments — audit & edit |
 | `radar_grades.jsonl` | Cached LLM-judge scores for 548 (system, model, task, seed=0) cells |
-| `cost_summary.csv` | Cached per-cell token counts (so `cost_chart.py` runs without trajectories) |
+| `cost_summary.csv` | Cached per-cell token counts (so the chart scripts run without trajectories) |
 | `ovagent_radar_native.png` | Headline radar (per-model mini-radars, gray=baseline / green=+omicverse) |
 | `ovagent_radar.png` | LLM-judge radar (kept for reference) |
-| `cost_vs_score.png` | Cost-vs-Pass@1 Pareto chart |
+| `cost_vs_score.png` | Cost-vs-Pass@1 Pareto chart (static, for markdown) |
+| `cost_vs_score.html` | Cost-vs-Pass@1 Pareto chart (interactive, for webpages) |

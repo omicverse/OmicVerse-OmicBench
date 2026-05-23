@@ -46,7 +46,7 @@ dependencies = [
 [project.optional-dependencies]
 serve = ["vllm>=0.6.5"]
 mini-swe = ["mini-swe-agent>=1.1"]
-analysis = ["jupyter", "ipykernel", "seaborn"]
+analysis = ["jupyter", "ipykernel", "seaborn", "plotly>=5.20"]
 dev = ["pytest>=7", "pytest-cov", "ruff", "mypy"]
 all = ["omicverse-omicbench[serve,mini-swe,analysis,dev]"]
 
