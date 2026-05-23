@@ -252,17 +252,6 @@ given a fixed trajectory, `bench/grader.py` always produces the same
 pass/fail. So `results/<run>/grades.csv` is the load-bearing audit trail;
 trajectories are derivable from rerunning, not load-bearing.
 
-## Citation
-
-```bibtex
-@inproceedings{omicbench2026,
-  title     = {Beacon: A Benchmark and System for Library-Native Agentic Bioinformatics},
-  author    = {Zeng, Zehua and others},
-  booktitle = {Advances in Neural Information Processing Systems},
-  year      = {2026}
-}
-```
-
 ## License
 
 This repository (`bench/`, `scripts/`, `prompts/`, `configs/`, `results/`,
