@@ -50,7 +50,14 @@ PRICING = {
     "gemini-3.1-flash-lite-preview": (0.10, 0.025,   0.40),
     "glm-5.1":                       (0.60, 0.06,    2.40),
     "MiniMax-M2.7":                  (0.30, 0.030,   1.20),
-    "qwen3.6:35b-a3b":               (0.0,  0.0,     0.0),  # local ollama
+    # Qwen3.6 35B-A3B priced from OpenRouter (Alibaba's open-weights model
+    # served by 3rd-party endpoints; the v1.0 sweep actually ran on local
+    # ollama at $0, so this row is an "if-on-OpenRouter" reference for
+    # apples-to-apples cost comparison with the API providers above.
+    # OpenRouter does not document a prompt-cache discount for this
+    # model — cached price equals input price, so the cache-adjusted
+    # number reduces to naive for qwen.
+    "qwen3.6:35b-a3b-256k":          (0.15, 0.15,    1.00),
 }
 
 # Map "model_short" in trajectory filenames -> model_id key in PRICING.

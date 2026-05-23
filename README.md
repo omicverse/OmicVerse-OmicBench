@@ -121,11 +121,15 @@ by **Gemini 3.1 Flash Lite** at the cheap end (~$0.004/task baseline,
 (~$0.26/task at 92% Pass@1). Two open-weights backends sit on the front
 mid-range: **Beacon[DeepSeek v4-flash]** at $0.010 / 86% and
 **Beacon[GLM-5.1]** at $0.054 / 89% — both deliver headline scores at a
-fraction of the gpt-5.5 cost.*
+fraction of the gpt-5.5 cost. **Beacon[Qwen3.6 35B-A3B]** lands at
+$0.062 / 79% Pass@1 with the largest single uplift on the chart
+(+34 pp from a 45% baseline).*
 
-> Qwen3.6:35b-A3B (local ollama) is excluded — its dollar cost is $0
-> by definition, which doesn't fit a log-scale axis. Its scores still
-> appear in the headline pass% table above.
+> Qwen3.6:35b-A3B was actually run locally on ollama at zero dollar
+> cost; the cost shown here uses OpenRouter list prices ($0.15/$1.00
+> per M in/out, no documented cache discount) so it can be compared
+> apples-to-apples with the API-backed models on the same axis. The
+> chart-only `qwen-3.6:27b` xmodel side-sweep is omitted (only 4 cells).
 
 ### Ablating Beacon
 

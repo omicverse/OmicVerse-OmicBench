@@ -40,7 +40,7 @@ PROVIDER = {
     "gemini-3.1-flash-lite-preview": ("Google · Gemini", "#4FB99F"),
     "glm-5.1":                       ("Zhipu",           "#A04EBF"),
     "MiniMax-M2.7":                  ("MiniMax",         "#E8894C"),
-    "qwen3.6:35b-a3b":               ("Alibaba (open)",  "#6E8B3D"),
+    "qwen3.6:35b-a3b-256k":          ("Alibaba (open)",  "#6E8B3D"),
 }
 BEACON_RING = "#C0392B"   # red — highlights the +omicverse arm
 
@@ -83,7 +83,7 @@ def short_label(model_id):
         "gemini-3.1-flash-lite-preview": "Gemini 3.1 Flash Lite",
         "glm-5.1":                       "GLM-5.1",
         "MiniMax-M2.7":                  "MiniMax-M2.7",
-        "qwen3.6:35b-a3b":               "Qwen3.6 35B-A3B",
+        "qwen3.6:35b-a3b-256k":          "Qwen3.6 35B-A3B",
     }.get(model_id, model_id)
 
 
