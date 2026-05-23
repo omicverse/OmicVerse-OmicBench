@@ -106,6 +106,27 @@ single corner consistently extending under +Beacon is `tool_grounding`
 — the same pattern across all 7 LLMs, differing only in magnitude. See
 `analysis/README.md` for methodology and the full per-dimension table.*
 
+### Cost vs Pass@1
+
+Per-task **cache-adjusted** dollar cost (lower bound: assumes a warm
+prompt cache; per-call `prompt_tokens` increments are read out of each
+agent trajectory by `analysis/bench_cost.py`):
+
+![Pass@1 vs cost per task: arrows show baseline → +Beacon trajectory per LLM](analysis/cost_vs_score.png)
+
+*Hollow dot = baseline arm, solid dot with red ring = +Beacon arm,
+arrow = the omicverse uplift. The Pareto front (dashed gray) is dominated
+by **Gemini 3.1 Flash Lite** at the cheap end (~$0.004/task baseline,
+~$0.010/task +Beacon) and **Beacon[gpt-5.5]** at the high-quality end
+(~$0.26/task at 92% Pass@1). Two open-weights backends sit on the front
+mid-range: **Beacon[DeepSeek v4-flash]** at $0.010 / 86% and
+**Beacon[GLM-5.1]** at $0.054 / 89% — both deliver headline scores at a
+fraction of the gpt-5.5 cost.*
+
+> Qwen3.6:35b-A3B (local ollama) is excluded — its dollar cost is $0
+> by definition, which doesn't fit a log-scale axis. Its scores still
+> appear in the headline pass% table above.
+
 ### Ablating Beacon
 
 The full Beacon prompt has three components: a static domain prompt,

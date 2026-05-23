@@ -117,13 +117,46 @@ python analysis/radar_grade.py plot
 # -> analysis/ovagent_radar.png
 ```
 
+## `bench_cost.py` + `cost_chart.py` — per-task dollar cost
+
+A separate analysis: how much does each (model, arm) actually cost per
+task, and what's the Pareto front of cost vs Pass@1?
+
+`bench_cost.py` reads per-call token usage out of every mini-swe-agent
+trajectory's `assistant.extra.response.usage.{prompt,completion}_tokens`,
+sorts calls by their `extra.timestamp`, and computes:
+
+- **Naive cost** = total `prompt_tokens × input_price` + `completion_tokens × output_price`. For agent loops that resend the growing conversation every turn this dramatically overstates the bill.
+- **Cache-adjusted cost** = treats only positive per-call `prompt_tokens` increments as fresh (uncached) input and bills the rest at the provider's cache-hit rate. Estimated, not measured — the trajectory doesn't tag cached vs uncached. Assumes a warm cache, so it's a best-case lower bound; the truth sits between naive and cache-adjusted.
+
+For some providers (notably the Codex OAuth bridge for gpt-5.5) per-call `prompt_tokens` is already de-duplicated server-side, so the per-call increments are themselves the "fresh" tokens and naive ≈ cache-adjusted.
+
+`cost_chart.py` plots the cache-adjusted cost vs Pass@1 scatter (log
+x-axis, one point per `(model, arm)` pair, baseline → +Beacon connected
+by arrow, Pareto front overlaid). Edit the `PRICING` dict in
+`bench_cost.py` to refresh provider prices, then re-run both scripts.
+
+### Reproduce
+
+```bash
+# Needs trajectories on disk — not shipped with the repo. After a sweep:
+python analysis/bench_cost.py
+# -> analysis/cost_summary.csv  (per-cell tokens)
+python analysis/cost_chart.py
+# -> analysis/cost_vs_score.png  (headline figure)
+```
+
 ## Files
 
 | File | What |
 |---|---|
 | `radar_native.py` | Native-dim radar generator |
 | `radar_grade.py` | LLM-judge variant generator |
+| `bench_cost.py` | Per-task token + cost computation from trajectories |
+| `cost_chart.py` | Pass@1 vs cache-adjusted cost scatter generator |
 | `native_dim_map.csv` | The 140 rubric keys with their dimension assignments — audit & edit |
 | `radar_grades.jsonl` | Cached LLM-judge scores for 548 (system, model, task, seed=0) cells |
+| `cost_summary.csv` | Cached per-cell token counts (so `cost_chart.py` runs without trajectories) |
 | `ovagent_radar_native.png` | Headline radar (per-model mini-radars, gray=baseline / green=+omicverse) |
 | `ovagent_radar.png` | LLM-judge radar (kept for reference) |
+| `cost_vs_score.png` | Cost-vs-Pass@1 Pareto chart |
