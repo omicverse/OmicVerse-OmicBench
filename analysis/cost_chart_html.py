@@ -92,6 +92,29 @@ def main():
     provider_legend_seen = set()
     pareto_pts = []
 
+    # Pass 1 — draw uplift connector LINES first so they sit underneath markers.
+    # (Plotly z-order = trace order. NB: avoid add_annotation arrows on log
+    # axes — the `ax`/`axref` tail is not log-transformed, arrows misalign.)
+    for model_id in PRICING:
+        if PRICING[model_id] == (0.0, 0.0, 0.0):
+            continue
+        b = cost_agg.get((model_id, "baseline"))
+        o = cost_agg.get((model_id, "omicverse"))
+        bg = grades.get((model_id, "baseline"))
+        og = grades.get((model_id, "omicverse"))
+        if not (b and o and bg and og):
+            continue
+        fig.add_trace(go.Scatter(
+            x=[b["cached_usd"], o["cached_usd"]],
+            y=[bg[0] * 100, og[0] * 100],
+            mode="lines",
+            line=dict(color=OMICVERSE_RING, width=1.4),
+            opacity=0.45,
+            hoverinfo="skip",
+            showlegend=False,
+        ))
+
+    # Pass 2 — draw the (baseline, OmicVerse) markers on top.
     for model_id in PRICING:
         if PRICING[model_id] == (0.0, 0.0, 0.0):
             continue
@@ -142,20 +165,6 @@ def main():
                 showlegend=show_legend,
             ))
             pareto_pts.append((cost, score))
-
-        # arrow baseline -> OmicVerse
-        b = cost_agg.get((model_id, "baseline"))
-        o = cost_agg.get((model_id, "omicverse"))
-        bg = grades.get((model_id, "baseline"))
-        og = grades.get((model_id, "omicverse"))
-        if b and o and bg and og:
-            fig.add_annotation(
-                x=o["cached_usd"], y=og[0] * 100,
-                ax=b["cached_usd"], ay=bg[0] * 100,
-                xref="x", yref="y", axref="x", ayref="y",
-                showarrow=True, arrowhead=2, arrowsize=1.0, arrowwidth=1.4,
-                arrowcolor=OMICVERSE_RING, opacity=0.5,
-            )
 
     # Pareto front
     pareto_pts.sort()
