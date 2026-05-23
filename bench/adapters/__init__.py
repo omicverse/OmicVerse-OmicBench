@@ -50,8 +50,8 @@ SYSTEMS = {
     "gpt_omicverse_no_registry":    mini_swe.run_gpt_omicverse_no_registry,
     "deepseek_omicverse_no_registry": mini_swe.run_deepseek_omicverse_no_registry,
     # Ablation arms: omicverse prompt + vanilla doc-RAG (embedding lookup
-    # over raw docstrings) instead of Beacon's structured registry. Tests
-    # whether Beacon's library-side contract (aliases, requires/produces,
+    # over raw docstrings) instead of OmicVerse's structured registry. Tests
+    # whether OmicVerse's library-side contract (aliases, requires/produces,
     # prerequisites, auto_fix, skill metadata) outperforms generic RAG.
     "gpt_omicverse_doc_rag":        mini_swe.run_gpt_omicverse_doc_rag,
     "deepseek_omicverse_doc_rag":     mini_swe.run_deepseek_omicverse_doc_rag,

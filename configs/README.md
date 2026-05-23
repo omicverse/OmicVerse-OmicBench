@@ -39,7 +39,7 @@ the LLM you have an API key for, then `bash scripts/run.sh configs/<...>.yaml`.
 
 ### Ablation arms (1 seed each)
 
-| Config | LLM | What changes vs full Beacon |
+| Config | LLM | What changes vs full OmicVerse |
 |---|---|---|
 | `ablation_gpt_no_registry.yaml`   | gpt-5.5 | omicverse system prompt with the registry-lookup section stripped — tests the contribution of structured discovery |
 | `ablation_gpt_doc_rag.yaml`       | gpt-5.5 | replaces structured registry with vanilla embedding RAG over docstrings — tests whether "more docs in context" is enough |

@@ -7,7 +7,7 @@ First public release of the OmicVerse-OmicBench harness + results. Companion to 
 ### Scope
 
 - **38 of 44 OmicBench tasks** evaluated (Layer D — D01_multiome_joint_embedding, D02_peak_gene_linking — excluded; see "Known gaps").
-- 7 LLMs × 2 system-prompt arms (`*_baseline` vs `*_omicverse`, the Beacon system prompt).
+- 7 LLMs × 2 system-prompt arms (`*_baseline` vs `*_omicverse`, the OmicVerse system prompt).
 - Seeds {0,1,2} for 6 LLMs; qwen3.6:35b-a3b at seed 0 only (local ollama, 1-seed budget).
 - Two ablation arms: `no_registry` (drop discovery tools) and `doc_rag` (replace structured registry with vanilla embedding RAG).
 
@@ -16,7 +16,7 @@ First public release of the OmicVerse-OmicBench harness + results. Companion to 
 | metric | result |
 |---|---|
 | Pass@1 baseline (7-LLM mean) | 66.9% |
-| Pass@1 +Beacon (7-LLM mean) | 84.7% |
+| Pass@1 +OmicVerse (7-LLM mean) | 84.7% |
 | Δ uplift                     | +17.8 pp |
 | Largest single uplift        | qwen3.6:35b-a3b, +34.2 pp |
 

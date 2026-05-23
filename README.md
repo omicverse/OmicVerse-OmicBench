@@ -21,7 +21,7 @@
 |---|:---:|:---:|
 | Tasks | 44 | **38** |
 | Layers | A B C **D** E F G L | A B C E F G L (D excluded) |
-| Models tested × arms | — | 7 × 2 (baseline / +Beacon) |
+| Models tested × arms | — | 7 × 2 (baseline / +OmicVerse) |
 | Seeds | — | 3 per (model, arm) except qwen (1) |
 
 **Layer D (paired multi-omics RNA + ATAC) — D01 and D02 — is not yet in v1.0**: those two tasks were added to OmicBench after the v1.0 sweep, and require an extra environment (`snapATAC2`, `muon`). They will be filled in **v1.1**; see `docs/05_changelog.md` for the planned scope.
@@ -48,7 +48,7 @@ same LLM, same tool surface (one `bash` per turn), same data, same env:
 
 | Arm | What it has |
 |---|---|
-| `*_omicverse`  (Beacon)  | `prompts/omicverse_system.md` — registry-lookup discipline + coding conventions + skill discovery |
+| `*_omicverse`  (OmicVerse)  | `prompts/omicverse_system.md` — registry-lookup discipline + coding conventions + skill discovery |
 | `*_baseline` | a bare mini-swe-agent system prompt; must rediscover omicverse on its own |
 
 Both arms can `import omicverse as ov`; the baseline arm just isn't told.
@@ -61,7 +61,7 @@ scanpy / scvelo / numpy scripts — sits in `baselines/` as a ceiling.
 
 **Pass@1 across the 38 v1.0 tasks · 7 LLMs · seeds {0,1,2} unless noted**
 
-| LLM                   | Baseline | +Beacon | Δ      |
+| LLM                   | Baseline | +OmicVerse | Δ      |
 |-----------------------|---------:|--------:|-------:|
 | qwen3.6:35b-a3b · 1 seed | 44.7%  | 78.9%   | **+34.2** |
 | GLM-5.1               | 67.1%    | 87.7%   | +20.6  |
@@ -85,7 +85,7 @@ the agent correctly invokes specialized algorithms (`cnmf`, `wgcna`,
 `ccc`, foundation-model inference, …) versus producing a stub or
 fabricated output:
 
-| Dimension | Baseline | +Beacon | Δ |
+| Dimension | Baseline | +OmicVerse | Δ |
 |---|---:|---:|---:|
 | **tool_grounding** | **32.3%** | **80.9%** | **+48.6 pp** |
 | quantitative_quality | 89.7% | 96.2% | +6.5 pp |
@@ -95,14 +95,14 @@ fabricated output:
 | data_integrity | 96.0% | 97.3% | +1.3 pp |
 
 Baseline models know specialized algorithms exist but cannot reliably
-assemble the correct call from a bare bash shell. Beacon's typed
+assemble the correct call from a bare bash shell. OmicVerse's typed
 function registry and skill index close most of that gap.
 
-![Per-model 6-dim capability radar: gray = baseline, green = +Beacon](analysis/ovagent_radar_native.png)
+![Per-model 6-dim capability radar: gray = baseline, green = +OmicVerse](analysis/ovagent_radar_native.png)
 
 *One mini-radar per LLM; gray polygon = baseline arm, green polygon =
-+Beacon arm; Δ under each panel is the overall pass-rate uplift. The
-single corner consistently extending under +Beacon is `tool_grounding`
++OmicVerse arm; Δ under each panel is the overall pass-rate uplift. The
+single corner consistently extending under +OmicVerse is `tool_grounding`
 — the same pattern across all 7 LLMs, differing only in magnitude. See
 `analysis/README.md` for methodology and the full per-dimension table.*
 
@@ -112,16 +112,16 @@ Per-task **cache-adjusted** dollar cost (lower bound: assumes a warm
 prompt cache; per-call `prompt_tokens` increments are read out of each
 agent trajectory by `analysis/bench_cost.py`):
 
-![Pass@1 vs cost per task: arrows show baseline → +Beacon trajectory per LLM](analysis/cost_vs_score.png)
+![Pass@1 vs cost per task: arrows show baseline → +OmicVerse trajectory per LLM](analysis/cost_vs_score.png)
 
-*Hollow dot = baseline arm, solid dot with red ring = +Beacon arm,
+*Hollow dot = baseline arm, solid dot with red ring = +OmicVerse arm,
 arrow = the omicverse uplift. The Pareto front (dashed gray) is dominated
 by **Gemini 3.1 Flash Lite** at the cheap end (~$0.004/task baseline,
-~$0.010/task +Beacon) and **Beacon[gpt-5.5]** at the high-quality end
+~$0.010/task +OmicVerse) and **OmicVerse[gpt-5.5]** at the high-quality end
 (~$0.26/task at 92% Pass@1). Two open-weights backends sit on the front
-mid-range: **Beacon[DeepSeek v4-flash]** at $0.010 / 86% and
-**Beacon[GLM-5.1]** at $0.054 / 89% — both deliver headline scores at a
-fraction of the gpt-5.5 cost. **Beacon[Qwen3.6 35B-A3B]** lands at
+mid-range: **OmicVerse[DeepSeek v4-flash]** at $0.010 / 86% and
+**OmicVerse[GLM-5.1]** at $0.054 / 89% — both deliver headline scores at a
+fraction of the gpt-5.5 cost. **OmicVerse[Qwen3.6 35B-A3B]** lands at
 $0.062 / 79% Pass@1 with the largest single uplift on the chart
 (+34 pp from a 45% baseline).*
 
@@ -131,22 +131,22 @@ $0.062 / 79% Pass@1 with the largest single uplift on the chart
 > apples-to-apples with the API-backed models on the same axis. The
 > chart-only `qwen-3.6:27b` xmodel side-sweep is omitted (only 4 cells).
 
-### Ablating Beacon
+### Ablating OmicVerse
 
-The full Beacon prompt has three components: a static domain prompt,
+The full OmicVerse prompt has three components: a static domain prompt,
 a function-registry lookup tool, and a skill-discovery tool. Two
 ablations isolate the contribution of the structured-discovery part:
 
 | Variant (1 seed each) | gpt-5.5 | deepseek-v4-flash |
 |---|---:|---:|
 | Baseline | 73.7% | 71.1% |
-| Beacon — `no_registry` (drop discovery tools) | 63.2% | 84.2% |
-| Beacon — `doc_rag` (replace registry with vanilla embedding RAG) | 76.3% | 71.1% |
-| Beacon — full | 92.1% | 86.8% |
+| OmicVerse — `no_registry` (drop discovery tools) | 63.2% | 84.2% |
+| OmicVerse — `doc_rag` (replace registry with vanilla embedding RAG) | 76.3% | 71.1% |
+| OmicVerse — full | 92.1% | 86.8% |
 
 `doc_rag` is the load-bearing control: vanilla embedding retrieval over
 docstrings is **statistically equivalent to baseline** on both LLMs.
-Beacon adds ~+15 pp on top, isolating the gain to the structured
+OmicVerse adds ~+15 pp on top, isolating the gain to the structured
 registry + skill discovery, not just "more documentation in context".
 
 ## Quick start
@@ -203,11 +203,11 @@ OmicVerse-OmicBench/
 │       └── persistent_env.py           cross-step IPython kernel
 │
 ├── prompts/                        three system-prompt variants
-│   ├── omicverse_system.md             FULL Beacon (registry + skill discovery)
-│   ├── omicverse_system_no_registry.md Beacon minus discovery
-│   └── omicverse_system_doc_rag.md     Beacon with vanilla embedding RAG
+│   ├── omicverse_system.md             FULL OmicVerse (registry + skill discovery)
+│   ├── omicverse_system_no_registry.md OmicVerse minus discovery
+│   └── omicverse_system_doc_rag.md     OmicVerse with vanilla embedding RAG
 │
-├── omicverse_components/           Beacon-side library hooks
+├── omicverse_components/           OmicVerse-side library hooks
 │   ├── _ovagent_lookup.py              public wrappers (registry_lookup, skill_lookup)
 │   └── ovagent/
 │       ├── registry_scanner.py         AST-walks the omicverse source tree

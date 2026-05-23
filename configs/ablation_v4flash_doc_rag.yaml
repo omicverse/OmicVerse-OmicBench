@@ -2,8 +2,8 @@ run_name: ablation_v4flash_doc_rag
 description: |
   Mirror of ablation_gpt_doc_rag but on DeepSeek-v4-flash.
   The cross-model ablation matters because doc_rag ≈ baseline on
-  v4-flash too implies the gap between Beacon and embedding RAG is
-  a property of the Beacon contract, not the LLM.
+  v4-flash too implies the gap between OmicVerse and embedding RAG is
+  a property of the OmicVerse contract, not the LLM.
 
   Build the index first:
     bash scripts/build_doc_rag_index.py

@@ -1,7 +1,7 @@
 run_name: gpt_full
 description: |
   gpt-5.5 via ChatGPT OAuth (Codex CLI tokens), full 38-task v1.0 suite,
-  both arms (gpt_omicverse with Beacon prompt vs. gpt_baseline).
+  both arms (gpt_omicverse with OmicVerse prompt vs. gpt_baseline).
 
   Historical note: in the v1.0 sweep this was executed as six layer-
   sharded sub-runs (gpt_abc / gpt_c / gpt_e / gpt_f / gpt_g /

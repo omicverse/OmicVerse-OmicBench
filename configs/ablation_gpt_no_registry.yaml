@@ -1,8 +1,8 @@
 run_name: ablation_gpt_no_registry
 description: |
-  Ablation: Beacon prompt minus the registry/skill discovery section.
+  Ablation: OmicVerse prompt minus the registry/skill discovery section.
   Tests whether function discovery (registry_lookup + skill_lookup)
-  is the load-bearing component of Beacon, or whether the static
+  is the load-bearing component of OmicVerse, or whether the static
   domain prompt alone explains the gain.
 
 llm:

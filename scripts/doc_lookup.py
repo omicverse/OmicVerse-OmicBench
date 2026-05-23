@@ -3,7 +3,7 @@
 Loads the embedding index built by ``build_doc_rag_index.py`` and prints
 the top-K matching docstring chunks for a given query. The chunks are
 the raw output of ``inspect.signature`` + ``inspect.getdoc`` over
-omicverse's public callables — no Beacon-side metadata (aliases,
+omicverse's public callables — no OmicVerse-side metadata (aliases,
 requires/produces, prerequisites, auto_fix, skill recipes) is included.
 
 Usage from the agent's bash::

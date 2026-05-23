@@ -132,7 +132,7 @@ sorts calls by their `extra.timestamp`, and computes:
 For some providers (notably the Codex OAuth bridge for gpt-5.5) per-call `prompt_tokens` is already de-duplicated server-side, so the per-call increments are themselves the "fresh" tokens and naive ≈ cache-adjusted.
 
 `cost_chart.py` plots the cache-adjusted cost vs Pass@1 scatter (log
-x-axis, one point per `(model, arm)` pair, baseline → +Beacon connected
+x-axis, one point per `(model, arm)` pair, baseline → +OmicVerse connected
 by arrow, Pareto front overlaid). Edit the `PRICING` dict in
 `bench_cost.py` to refresh provider prices, then re-run both scripts.
 

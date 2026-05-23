@@ -48,7 +48,7 @@ OMICVERSE_NO_REGISTRY_PROMPT_PATH = REPO_ROOT / "prompts" / "omicverse_system_no
 
 # Ablation: doc-RAG. Same prompt scaffold but the discovery channel is a
 # vanilla embedding-RAG over raw docstrings (``doc_lookup`` script) rather
-# than the Beacon registry. Tests whether Beacon's gain is purely a
+# than the OmicVerse registry. Tests whether OmicVerse's gain is purely a
 # documentation-retrieval thing or whether the structured library-side
 # contract (aliases, requires/produces, prerequisites, auto_fix, skill
 # metadata) adds something on top. Selected via prompt_variant='doc_rag'.
@@ -639,8 +639,8 @@ def run_deepseek_omicverse_no_registry(task: dict, model_id: str, seed: int) -> 
 
 def run_gpt_omicverse_doc_rag(task: dict, model_id: str, seed: int) -> dict:
     """gpt-5.5 + omicverse prompt with doc_lookup (vanilla embedding-RAG over
-    raw docstrings) replacing Beacon's registry/skill_lookup. Tests whether
-    Beacon's structured library-side contract beats vanilla doc retrieval."""
+    raw docstrings) replacing OmicVerse's registry/skill_lookup. Tests whether
+    OmicVerse's structured library-side contract beats vanilla doc retrieval."""
     return _do_run(task, model_id, seed, with_teams=True,
                     model_factory="gpt_oauth",
                     prompt_variant="doc_rag",
@@ -648,7 +648,7 @@ def run_gpt_omicverse_doc_rag(task: dict, model_id: str, seed: int) -> dict:
 
 
 def run_deepseek_omicverse_doc_rag(task: dict, model_id: str, seed: int) -> dict:
-    """deepseek + omicverse prompt with doc_lookup replacing Beacon."""
+    """deepseek + omicverse prompt with doc_lookup replacing OmicVerse."""
     return _do_run(task, model_id, seed, with_teams=True,
                     model_factory="litellm_deepseek",
                     prompt_variant="doc_rag",

@@ -2,7 +2,7 @@
 
 This intentionally walks the package-level namespaces and extracts only
 ``inspect.signature`` + ``inspect.getdoc`` — it does NOT consult any of the
-Beacon-side metadata: ``aliases``, ``requires`` / ``produces``,
+OmicVerse-side metadata: ``aliases``, ``requires`` / ``produces``,
 ``prerequisites``, ``auto_fix``, ``skill_*`` — i.e. the structured
 library-side contract this ablation is comparing against.
 
@@ -28,7 +28,7 @@ warnings.filterwarnings("ignore")
 
 # Public namespaces to walk. We deliberately skip ``ov.utils.*`` because
 # the registry/skill scanners live there — including their docstrings
-# would leak Beacon hints into the RAG corpus.
+# would leak OmicVerse hints into the RAG corpus.
 SUBMODULES = [
     "omicverse.bulk",
     "omicverse.single",
